@@ -1,11 +1,11 @@
 [package]
-name = "example-axum"
+name = "app-test"
 version = "0.0.0"
 publish = false
 edition = "2021"
 
 [dependencies]
-autometrics = { version = "0.5.0", features = ["prometheus-exporter"] }
+autometrics = { version = "0.6.0", features = ["prometheus-exporter"] }
 axum = { version = "0.6", features = ["json"] }
 rand = "0.8"
 reqwest = { version = "0.11", features = ["json"] }
