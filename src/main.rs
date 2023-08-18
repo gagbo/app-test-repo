@@ -24,6 +24,17 @@ pub async fn get_random_error() -> Result<(), ()> {
     }
 }
 
+#[autometrics]
+pub async fn post_random_error() -> Result<(), ()> {
+    let should_error = random::<u8>();
+
+    if should_error > 172u8 {
+        Err(())
+    } else {
+        Ok(())
+    }
+}
+
 /// This function doesn't return a Result, but we can determine whether
 /// we want to consider it a success or not by passing a function to the `ok_if` parameter.
 #[autometrics(ok_if = is_success)]
@@ -51,7 +62,10 @@ pub async fn get_metrics() -> (StatusCode, String) {
 pub async fn main() {
     let app = Router::new()
         .route("/", get(get_index))
-        .route("/random-error", get(get_random_error))
+        .route(
+            "/random-error",
+            get(get_random_error).post(post_random_error),
+        )
         // Expose the metrics for Prometheus to scrape
         .route("/metrics", get(get_metrics));
 
