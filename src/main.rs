@@ -23,7 +23,7 @@ pub async fn post_slow() -> Result<(), ()> {
 }
 
 #[autometrics]
-pub async fn post_random_error() -> Result<(), ()> {
+pub async fn get_random_error() -> Result<(), ()> {
     let should_error = random::<u8>();
 
     if should_error > 172u8 {
@@ -60,7 +60,7 @@ pub async fn get_metrics() -> (StatusCode, String) {
 pub async fn main() {
     let app = Router::new()
         .route("/", get(get_index))
-        .route("/random-error", post(post_random_error))
+        .route("/random-error", get(get_random_error))
         .route("/slow", post(post_slow))
         // Expose the metrics for Prometheus to scrape
         .route("/metrics", get(get_metrics));
